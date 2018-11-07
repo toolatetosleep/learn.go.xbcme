@@ -2,7 +2,7 @@
 * @Author: GeekWho
 * @Date:   2018-10-27 17:21:34
 * @Last Modified by:   GeekWho
-* @Last Modified time: 2018-11-08 01:36:45
+* @Last Modified time: 2018-11-08 02:04:23
 */
 package main
 
@@ -24,27 +24,27 @@ func (e ErrNegativeByte) Error() string {
 }
 
 func (r rot13Reader) Read(b []byte) (n int, err error) {
+    //return 0, ErrNegativeByte("length is empty")
     //判断b的长度类型是否正确
     if len(b) <= 0 {
-        return len(b),ErrNegativeByte("length is empty")
+        return len(b), ErrNegativeByte("length is empty")
     }
 
     n,err = r.r.Read(b)
 
-    /*if e != nil {
-        return len(b),ErrNegativeByte(e.Error())
-    }*/
-    //fmt.Printf("b[:n] = %q\n", b[:n])
+    if err != nil {
+        return len(b), ErrNegativeByte(err.Error())
+    }
     for i := 0; i < n; i++ {
         b[i] = rot13(b[i])
         fmt.Printf("n =%v rot = %q Type: %T \n", n, rot13(b[i]), b[i])
+        if typeof(b[i]) != "uint8" {
+            //元素类型是否为字符串
+            return len(b), ErrNegativeByte("element is no string")
+        }
     }
-    return
-    /*if false {
-        //元素类型是否为字符串
-        return len(b),ErrNegativeByte("element is no string")
-    }
-    return len(b), nil*/
+    return 0, nil
+    //return 返回默认值
 }
 
 func rot13(b byte) byte {
@@ -60,8 +60,17 @@ func rot13(b byte) byte {
     return (b-a+13)%(z-a+1) + a
 }
 
+func typeof(v interface{}) string {
+    return fmt.Sprintf("%T", v)
+}
+
 func main() {
     s := strings.NewReader("Lbh penpxrq gur pbqr!")
     r := rot13Reader{s}
+
     io.Copy(os.Stdout, &r)
+    /*n,err := io.Copy(os.Stdout, &r)
+    if err != nil {
+        fmt.Printf("n %d err %v", n, err)
+    }*/
 }
