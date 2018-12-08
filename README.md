@@ -5,7 +5,7 @@
 搭建Go基础开发环境，请参考[GitHub地址](https://github.com/geekwho11/docker.xbc.me)。
 
 ### Go指南
-记录Go指南中文版的练习，请参考[GitHub地址](https://github.com/geekwho11/learn.go.xbcme/tour.go-zh.org)。
+记录Go指南中文版的练习，请参考[GitHub地址](./tour.go-zh.org)。
 1. [练习.循环与函数](./tour.go-zh.org/exercise-loops-and-functions.go)
 2. [练习.切片](./tour.go-zh.org/exercise-slices.go)
 3. [练习.映射](./tour.go-zh.org/exercise-loops-and-functions.go)
